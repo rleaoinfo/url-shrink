@@ -1,7 +1,7 @@
-import { UserModel } from './user.model';
+import { UserSchema } from './user.model';
 
-describe('UserModel', () => {
+describe('UserSchema', () => {
   it('should be defined', () => {
-    expect(new UserModel()).toBeDefined();
+    expect ;
   });
 });

@@ -1,41 +1,42 @@
-import { Injectable, HttpException } from '@nestjs/common';
-import { USERS } from '../mocks/user.mock';
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { User } from './user.model';
+import { Model } from 'mongoose';
+import { CreateUserDTO } from './dto/create-user.dto';
+import { doc } from 'prettier';
 
 @Injectable()
 export class UsersService {
-  users = USERS;
+  constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
 
-  getUsers(): Promise<any> {
-    return new Promise((resolve) => {
-      resolve(this.users);
-    });
+  async findAll(): Promise<any> {
+    return await this.userModel.find().exec();
   }
-  getUser(emailString): Promise<any> {
-    let email = String(emailString);
-    return new Promise((resolve) => {
-      const user = this.users.find((user) => user.email === email);
-      if (!user) {
-        throw new HttpException('User does not exist!', 404);
-      }
-      resolve({acess_token : user.acess_token});
-    });
-  }
-  addUser(user): Promise<any> {
-    return new Promise((resolve) => {
-      this.users.push(user);
-      resolve(this.users);
-    });
-  }
-  deleteUser(userID): Promise<any> {
-    let id = Number(userID);
-    return new Promise(resolve => {
-        let index = this.users.findIndex(user => user.id === id);
-        if (index === -1) {
-            throw new HttpException('User does not exist!', 404);
-        }
-        this.users.splice(1, index);
-        resolve(this.users);
-    });
-}
 
+  async create(doc: User) {
+    const result = await new this.userModel(doc).save();
+    return result.id;
+  }
+
+  async findById(id: number) {
+    const result = await this.userModel.findById(id);
+    return result;
+  }
+
+  async update(id: any, email: any, acess_token: any): Promise<any> {
+    const updatedUser = await this.userModel.findById(id);
+    console.log(id);
+    if (email) {
+      updatedUser.email = email;
+    }
+    if (acess_token) {
+      updatedUser.acess_token = acess_token;
+    }
+    updatedUser.save();
+    return updatedUser;
+  }
+
+  async remove(user: User) {
+    // ...
+  }
 }

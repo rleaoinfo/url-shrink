@@ -1,3 +1,4 @@
+import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
 
 export const UserSchema = new mongoose.Schema({
@@ -6,7 +7,7 @@ export const UserSchema = new mongoose.Schema({
   acess_token : { type: String, required: true },
 });
 
-export interface User {
+export interface User extends Document{
   id: string;
   email: string;
   acess_token: string;
