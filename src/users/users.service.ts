@@ -18,25 +18,24 @@ export class UsersService {
     return result.id;
   }
 
+  async findByEmail(email : string) {
+    const result = await this.userModel.findOne({email: email}).exec();
+    return result;
+  }
+
+
   async findById(id: number) {
     const result = await this.userModel.findById(id);
     return result;
   }
 
-  async update(id: any, email: any, acess_token: any): Promise<any> {
-    const updatedUser = await this.userModel.findById(id);
-    console.log(id);
-    if (email) {
-      updatedUser.email = email;
-    }
-    if (acess_token) {
-      updatedUser.acess_token = acess_token;
-    }
-    updatedUser.save();
+  async update(id: any, body: any): Promise<any> {
+    const updatedUser = await this.userModel.findByIdAndUpdate(id,body,{new:true , useFindAndModify:true});
     return updatedUser;
   }
 
-  async remove(user: User) {
-    // ...
+  async remove(id: any) {
+    const deleteUser = await this.userModel.findByIdAndDelete(id);
+    return deleteUser;
   }
 }
