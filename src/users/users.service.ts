@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './user.model';
 import { Model } from 'mongoose';
@@ -15,14 +15,21 @@ export class UsersService {
 
   async create(doc: User) {
     const result = await new this.userModel(doc).save();
-    return result.id;
-  }
-
-  async findByEmail(email : string) {
-    const result = await this.userModel.findOne({email: email}).exec();
     return result;
   }
 
+  async findByEmail(email: string, res: any) {
+    const result = await this.userModel.findOne({ email: email }).exec();
+    if (result === null) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: 'Email dont found in database' });
+    } else {
+      return res
+        .status(HttpStatus.OK)
+        .json({ acess_token: result.acess_token });
+    }
+  }
 
   async findById(id: number) {
     const result = await this.userModel.findById(id);
@@ -30,7 +37,10 @@ export class UsersService {
   }
 
   async update(id: any, body: any): Promise<any> {
-    const updatedUser = await this.userModel.findByIdAndUpdate(id,body,{new:true , useFindAndModify:true});
+    const updatedUser = await this.userModel.findByIdAndUpdate(id, body, {
+      new: true,
+      useFindAndModify: true,
+    });
     return updatedUser;
   }
 

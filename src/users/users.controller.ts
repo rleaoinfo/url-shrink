@@ -1,6 +1,5 @@
-import { HttpStatus ,Body, Controller, Delete, Get, Param, Patch, Post, Put, Res } from '@nestjs/common';
+import {  Body, Controller, Delete, Get, Param, Post, Put, Res, Req } from '@nestjs/common';
 import { UsersService } from './users.service';
-import {CreateUserDTO} from './dto/create-user.dto'
 import { User } from './user.model';
 
 @Controller('users')
@@ -24,14 +23,9 @@ export class UsersController {
     return this.service.create(user);
   }
   @Post('authorize')
-  async authorize(@Res() res,@Body('email') email: any) {
-    const authorize = await this.service.findByEmail(email);
-    if(authorize === null){
-      return res.status(HttpStatus.BAD_REQUEST).json({message : "Email dont found in database"})
-    }
-    else{
-      return res.status(HttpStatus.OK).json({acess_token : authorize.acess_token})
-    }
+  async authorize(@Res() res,@Body('email') email: any, @Req() req) {
+    const authorize = await this.service.findByEmail(email,res);
+    return authorize;
   }
 
   @Put('update/:id')
