@@ -21,5 +21,6 @@ const mongourl: string = process.env.MONGO_URL_USERS || '';
   ],
   controllers: [UsersController],
   providers: [UsersService],
+  exports: [UsersService]
 })
 export class UsersModule {}

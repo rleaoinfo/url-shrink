@@ -4,6 +4,7 @@ import { User } from './user.model';
 import { Model } from 'mongoose';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { doc } from 'prettier';
+import { AnyFilesInterceptor } from '@nestjs/platform-express';
 
 @Injectable()
 export class UsersService {
@@ -11,6 +12,11 @@ export class UsersService {
 
   async findAll(): Promise<any> {
     return await this.userModel.find().exec();
+  }
+
+  async findOne(token: any): Promise<any> {
+    const result = await this.userModel.findOne({acess_token:token}).exec();
+    return result;
   }
 
   async create(doc: User) {

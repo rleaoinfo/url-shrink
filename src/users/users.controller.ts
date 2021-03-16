@@ -23,7 +23,7 @@ export class UsersController {
     return this.service.create(user);
   }
   @Post('authorize')
-  async authorize(@Res() res,@Body('email') email: any, @Req() req) {
+  async authorize(@Res() res: any,@Body('email') email: any, @Req() req) {
     const authorize = await this.service.findByEmail(email,res);
     return authorize;
   }

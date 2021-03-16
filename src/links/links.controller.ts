@@ -13,8 +13,8 @@ export class LinksController {
     }
 
     @Post('shorten')   
-    async adjustUrl(@Headers('token') token:any,@Body() body: any){
-      return await this.service.shortUrl(token,body)
+    async adjustUrl(@Res() res: any,@Headers('token') token:any,@Body() body: any){
+      return await this.service.shortUrl(token,body,res)
     }
 
 
