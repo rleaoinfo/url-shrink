@@ -69,6 +69,7 @@ export class LinksService {
       }
     }
     else{
+      if(uri == null || uri == ''){
       const dataform = {
         hash_link: hashUnique,
         url_target: url,
@@ -84,6 +85,26 @@ export class LinksService {
           uri: uri,
           url_target: data.url_target,
         });
+      }
+      else{
+        const dataform = {
+          hash_link: hashUnique,
+          url_target: url,
+          uri: hashUnique,
+          token_reference: token,
+          enabled : true,
+        };
+        const data = await new this.linkModel(dataform).save();
+        return res
+          .status(HttpStatus.ACCEPTED)
+          .json({
+            url_source: 'http://localhost:3001/' + hashUnique,
+            uri: hashUnique,
+            url_target: data.url_target,
+          });
+
+
+      }
     }
   }
 }
