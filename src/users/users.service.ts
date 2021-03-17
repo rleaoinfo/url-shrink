@@ -14,7 +14,7 @@ export class UsersService {
     return await this.userModel.find().exec();
   }
 
-  async findOne(token: any): Promise<any> {
+  async findOneToken(token: any): Promise<any> {
     const result = await this.userModel.findOne({acess_token:token}).exec();
     return result;
   }

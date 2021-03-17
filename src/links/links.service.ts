@@ -20,10 +20,9 @@ export class LinksService {
     const hashUnique = nanoid.nanoid(7);
     const url = body.url_target;
     const uri = body.uri;
-    const userOwner = await this.usersService.findOne(token);
+    const userOwner = await this.usersService.findOneToken(token);
     const linkUri = await this.linkModel.findOne({ uri: uri }).exec();
     if (linkUri) {
-      console.log("1");
       if (userOwner === null) {
         return res
           .status(HttpStatus.BAD_REQUEST)
