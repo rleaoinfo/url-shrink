@@ -5,7 +5,7 @@ export const LinkSchema = new mongoose.Schema(
   {
     hash_link: { type: String, required: true },
     url_target: { type: String, required: true },
-    uri: { type: String, required: true },
+    uri: { type: String, required: true, unique: true},
     token_reference: { type: String, required: true },
     enabled: { type: Boolean, required: true },
   },
