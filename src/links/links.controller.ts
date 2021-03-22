@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Res, Headers } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res, Headers, Param, Redirect } from '@nestjs/common';
 import { LinksService } from './links.service';
 import { UniqueUriPipe } from './unique-uri.pipe';
 @Controller('links')
@@ -8,6 +8,11 @@ export class LinksController {
   @Get()
   async get() {
     return await this.service.findAll();
+  }
+  @Get(':id')
+  @Redirect('', 301)
+  async getUri(@Param() params) {
+    return await this.service.findUri(params.id);
   }
 
   @Post('shorten')

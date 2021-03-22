@@ -16,9 +16,16 @@ export class LinksService {
     return await this.linkModel.find().exec();
   }
 
-  existsUri(uri: string) {
-    return this.linkModel.exists({ uri });
+  async existsUri(uri: string) {
+    return await this.linkModel.exists({ uri });
   }
+
+  async findUri(uri : string){
+    return { url: 'https://docs.nestjs.com/v5/' }
+
+  }
+
+
 
   async shortUrl(token: any, body: any, res: any): Promise<any> {
     const hashUnique = nanoid.nanoid(7);
