@@ -4,6 +4,7 @@ import { Link } from './link.model';
 import { Model } from 'mongoose';
 import * as nanoid from 'nanoid';
 import { UsersService } from 'src/users/users.service';
+import { dataCreate } from '../utils/link.process';
 
 @Injectable()
 export class LinksService {
@@ -25,7 +26,7 @@ export class LinksService {
     if (uriFound != null) {
       return { url: uriFound.url_target, statusCode: 302 };
     } else {
-      return {url: 'http://localhost:3001', statusCode: 404 };
+      return { url: 'http://localhost:3001', statusCode: 404 };
     }
   }
 
@@ -45,13 +46,7 @@ export class LinksService {
           return res.status(HttpStatus.ACCEPTED).json(linkUri);
         } else {
           if (uri == null || uri == '') {
-            const dataform = {
-              hash_link: hashUnique,
-              url_target: url,
-              uri: hashUnique,
-              token_reference: token,
-              enabled: true,
-            };
+            const dataform = dataCreate(hashUnique, url, hashUnique, token);
             const data = await new this.linkModel(dataform).save();
             return res.status(HttpStatus.ACCEPTED).json({
               url_source: 'http://localhost:3001/' + hashUnique,
@@ -59,13 +54,7 @@ export class LinksService {
               url_target: data.url_target,
             });
           } else {
-            const dataform = {
-              hash_link: hashUnique,
-              url_target: url,
-              uri: uri,
-              token_reference: token,
-              enabled: true,
-            };
+            const dataform = dataCreate(hashUnique, url, uri, token);
             const data = await new this.linkModel(dataform).save();
             return res.status(HttpStatus.ACCEPTED).json({
               url_source: 'http://localhost:3001/' + uri,
@@ -77,13 +66,7 @@ export class LinksService {
       }
     } else {
       if (uri != null && uri != '') {
-        const dataform = {
-          hash_link: hashUnique,
-          url_target: url,
-          uri: uri,
-          token_reference: token,
-          enabled: true,
-        };
+        const dataform = dataCreate(hashUnique, url, uri, token);
         const data = await new this.linkModel(dataform).save();
         return res.status(HttpStatus.ACCEPTED).json({
           url_source: 'http://localhost:3001/' + uri,
@@ -91,13 +74,7 @@ export class LinksService {
           url_target: data.url_target,
         });
       } else {
-        const dataform = {
-          hash_link: hashUnique,
-          url_target: url,
-          uri: hashUnique,
-          token_reference: token,
-          enabled: true,
-        };
+        const dataform = dataCreate(hashUnique, url, hashUnique, token);
         const data = await new this.linkModel(dataform).save();
         return res.status(HttpStatus.ACCEPTED).json({
           url_source: 'http://localhost:3001/' + hashUnique,
