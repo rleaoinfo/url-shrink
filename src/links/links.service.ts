@@ -20,12 +20,14 @@ export class LinksService {
     return await this.linkModel.exists({ uri });
   }
 
-  async findUri(uri : string){
-    return { url: 'https://docs.nestjs.com/v5/' }
-
+  async findUri(uri: string) {
+    const uriFound = await this.linkModel.findOne({ uri: uri }).exec();
+    if (uriFound != null) {
+      return { url: uriFound.url_target, statusCode: 302 };
+    } else {
+      return {url: 'http://localhost:3001', statusCode: 404 };
+    }
   }
-
-
 
   async shortUrl(token: any, body: any, res: any): Promise<any> {
     const hashUnique = nanoid.nanoid(7);
