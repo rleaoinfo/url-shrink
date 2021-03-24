@@ -1,9 +1,19 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param, Redirect } from '@nestjs/common';
 import { AppService } from './app.service';
+import { LinksService } from './links/links.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly appService: AppService,
+    private readonly linksService: LinksService,
+  ) {}
+
+  @Get(':id')
+  @Redirect()
+  async getUri(@Param() params : any) {
+    return await this.linksService.findUri(params.id);
+  }
 
   @Get()
   getHello(): string {

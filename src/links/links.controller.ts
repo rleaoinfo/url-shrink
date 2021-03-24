@@ -9,11 +9,6 @@ export class LinksController {
   async get() {
     return await this.service.findAll();
   }
-  @Get(':id')
-  @Redirect('', 301)
-  async getUri(@Param() params) {
-    return await this.service.findUri(params.id);
-  }
 
   @Post('shorten')
   async adjustUrl(
