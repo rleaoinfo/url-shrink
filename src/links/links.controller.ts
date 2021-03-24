@@ -1,6 +1,8 @@
-import { Body, Controller, Get, Post, Res, Headers, Param, Redirect } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res, Headers, Param, Redirect, UseGuards } from '@nestjs/common';
 import { LinksService } from './links.service';
 import { UniqueUriPipe } from './unique-uri.pipe';
+import { AuthGuard } from '../users/users.guard';
+
 @Controller('links')
 export class LinksController {
   constructor(private service: LinksService) {}
@@ -11,6 +13,7 @@ export class LinksController {
   }
 
   @Post('shorten')
+  @UseGuards(AuthGuard)
   async adjustUrl(
     @Res() res: any,
     @Headers('token') token: any,

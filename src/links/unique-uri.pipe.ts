@@ -15,7 +15,7 @@ import {
       const { uri } = value || {};
       const existsUri = await this.linkSerivce.existsUri(uri);
       if (existsUri) {
-        throw new BadRequestException(`Uri ${uri} já existe`);
+        throw new BadRequestException(`Existing uri found on database : ${uri} `);
       }
   
       return value;
