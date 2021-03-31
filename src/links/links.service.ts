@@ -34,6 +34,7 @@ export class LinksService {
     const hashUnique = nanoid.nanoid(7);
     const url = body.url_target;
     const uri = body.uri;
+    const local = 'http://localhost:3001/'
     const userOwner = await this.usersService.findOneToken(token);
     const linkUri = await this.linkModel.findOne({ uri: uri }).exec();
     if (linkUri) {
@@ -49,7 +50,7 @@ export class LinksService {
             const dataform = dataCreate(hashUnique, url, hashUnique, token);
             const data = await new this.linkModel(dataform).save();
             return res.status(HttpStatus.ACCEPTED).json({
-              url_source: 'http://localhost:3001/' + hashUnique,
+              url_source: local + hashUnique,
               uri: hashUnique,
               url_target: data.url_target,
             });
@@ -57,7 +58,7 @@ export class LinksService {
             const dataform = dataCreate(hashUnique, url, uri, token);
             const data = await new this.linkModel(dataform).save();
             return res.status(HttpStatus.ACCEPTED).json({
-              url_source: 'http://localhost:3001/' + uri,
+              url_source: local + uri,
               uri: uri,
               url_target: data.url_target,
             });
@@ -69,7 +70,7 @@ export class LinksService {
         const dataform = dataCreate(hashUnique, url, uri, token);
         const data = await new this.linkModel(dataform).save();
         return res.status(HttpStatus.ACCEPTED).json({
-          url_source: 'http://localhost:3001/' + uri,
+          url_source: local + uri,
           uri: uri,
           url_target: data.url_target,
         });
@@ -77,7 +78,7 @@ export class LinksService {
         const dataform = dataCreate(hashUnique, url, hashUnique, token);
         const data = await new this.linkModel(dataform).save();
         return res.status(HttpStatus.ACCEPTED).json({
-          url_source: 'http://localhost:3001/' + hashUnique,
+          url_source: local + hashUnique,
           uri: hashUnique,
           url_target: data.url_target,
         });

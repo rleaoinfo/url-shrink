@@ -3,7 +3,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LinksModule } from './links/links.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import * as dotenv from 'dotenv';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({

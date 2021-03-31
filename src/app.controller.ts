@@ -9,7 +9,7 @@ export class AppController {
     private readonly linksService: LinksService,
   ) {}
 
-  @Get(':id')
+  @Get('l/:id')
   @Redirect()
   async getUri(@Param() params : any) {
     return await this.linksService.findUri(params.id);
