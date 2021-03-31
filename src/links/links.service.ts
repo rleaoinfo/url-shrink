@@ -1,9 +1,11 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
+import geoip from 'geoip-lite'
 import { InjectModel } from '@nestjs/mongoose';
 import { Link } from './link.model';
 import { Model } from 'mongoose';
 import * as nanoid from 'nanoid';
 import { UsersService } from 'src/users/users.service';
+import { StatsService } from 'src/stats/stats.service'
 import { dataCreate } from '../utils/link.process';
 
 @Injectable()
@@ -11,7 +13,8 @@ export class LinksService {
   constructor(
     @InjectModel('Link') private readonly linkModel: Model<Link>,
     private readonly usersService: UsersService,
-  ) {}
+    private readonly statsService: StatsService,
+  ) { }
 
   async findAll(): Promise<any> {
     return await this.linkModel.find().exec();
@@ -21,9 +24,11 @@ export class LinksService {
     return await this.linkModel.exists({ uri });
   }
 
-  async findUri(uri: string) {
+  async findUri(uri: string, ip: string) {
     const uriFound = await this.linkModel.findOne({ uri: uri }).exec();
     if (uriFound != null) {
+      const geo = geoip.lookup(ip);
+      //const insertStats = await this.statsService.addStats(uriFound.hash_link,)
       return { url: uriFound.url_target, statusCode: 302 };
     } else {
       return { url: 'http://localhost:3001', statusCode: 404 };

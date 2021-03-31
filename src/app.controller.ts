@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Redirect } from '@nestjs/common';
+import { Controller, Get, Param, Redirect, Req } from '@nestjs/common';
 import { AppService } from './app.service';
 import { LinksService } from './links/links.service';
 
@@ -11,8 +11,8 @@ export class AppController {
 
   @Get('l/:id')
   @Redirect()
-  async getUri(@Param() params : any) {
-    return await this.linksService.findUri(params.id);
+  async getUri(@Param() params : any, @Req() req : any) {
+    return await this.linksService.findUri(params.id,req.connection.remoteAddress);
   }
 
   @Get()
@@ -20,3 +20,4 @@ export class AppController {
     return this.appService.getHello();
   }
 }
+ 

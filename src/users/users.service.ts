@@ -2,9 +2,6 @@ import { Injectable, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './user.model';
 import { Model } from 'mongoose';
-import { CreateUserDTO } from './dto/create-user.dto';
-import { doc } from 'prettier';
-import { AnyFilesInterceptor } from '@nestjs/platform-express';
 
 @Injectable()
 export class UsersService {

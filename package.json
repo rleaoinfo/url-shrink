@@ -27,6 +27,7 @@
     "@nestjs/mongoose": "^7.2.4",
     "@nestjs/platform-express": "^7.6.13",
     "dotenv": "^8.2.0",
+    "geoip-lite": "^1.4.2",
     "mongoose": "^5.11.19",
     "nanoid": "^3.1.22",
     "reflect-metadata": "^0.1.13",
